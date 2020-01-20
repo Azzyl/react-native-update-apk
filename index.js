@@ -41,12 +41,25 @@ export class UpdateAPK {
     console.log("getApkVersionSuccess", remote);
     // TODO switch this to versionCode
     let outdated = false;
-    if (remote.versionCode && (remote.versionCode > RNUpdateAPK.versionCode)) {
-      console.log('RNUpdateAPK::getApkVersionSuccess - outdated based on code, local/remote: ' + RNUpdateAPK.versionCode + "/" + remote.versionCode);
+    if (remote.versionCode && remote.versionCode > RNUpdateAPK.versionCode) {
+      console.log(
+        "RNUpdateAPK::getApkVersionSuccess - outdated based on code, local/remote: " +
+          RNUpdateAPK.versionCode +
+          "/" +
+          remote.versionCode
+      );
       outdated = true;
     }
-    if (!remote.versionCode && (RNUpdateAPK.versionName !== remote.versionName)) {
-      console.log('RNUpdateAPK::getApkVersionSuccess - APK outdated based on version name, local/remote: ' + RNUpdateAPK.versionName + "/" + remote.versionName);
+    if (!remote.versionCode && RNUpdateAPK.versionName !== remote.versionName) {
+      console.log(
+        "RNUpdateAPK::getApkVersionSuccess - APK outdated based on version name, local/remote: " +
+          RNUpdateAPK.versionName +
+          "/" +
+          remote.versionName
+      );
+      outdated = true;
+    }
+    if (this.options.toUpdate) {
       outdated = true;
     }
     if (outdated) {
@@ -72,7 +85,11 @@ export class UpdateAPK {
     const progress = data => {
       const percentage = ((100 * data.bytesWritten) / data.contentLength) | 0;
       this.options.downloadApkProgress &&
-        this.options.downloadApkProgress(percentage, data.contentLength, data.bytesWritten);
+        this.options.downloadApkProgress(
+          percentage,
+          data.contentLength,
+          data.bytesWritten
+        );
     };
     const begin = res => {
       console.log("RNUpdateAPK::downloadApk - downloadApkStart");
@@ -84,7 +101,7 @@ export class UpdateAPK {
     const downloadDestPath = `${RNFS.CachesDirectoryPath}/NewApp.apk`;
 
     const ret = RNFS.downloadFile({
-      fromUrl: remote.apkUrl,
+      fromUrl: this.options.apkUrl ? this.options.apkUrl : remote.apkUrl,
       toFile: downloadDestPath,
       begin,
       progress,
@@ -101,9 +118,13 @@ export class UpdateAPK {
         RNUpdateAPK.getApkInfo(downloadDestPath)
           .then(res => {
             console.log(
-              "RNUpdateAPK::downloadApk - Old Cert SHA-256: " + RNUpdateAPK.signatures[0].thumbprint
+              "RNUpdateAPK::downloadApk - Old Cert SHA-256: " +
+                RNUpdateAPK.signatures[0].thumbprint
             );
-            console.log("RNUpdateAPK::downloadApk - New Cert SHA-256: " + res.signatures[0].thumbprint);
+            console.log(
+              "RNUpdateAPK::downloadApk - New Cert SHA-256: " +
+                res.signatures[0].thumbprint
+            );
             if (
               res.signatures[0].thumbprint !==
               RNUpdateAPK.signatures[0].thumbprint
@@ -116,7 +137,8 @@ export class UpdateAPK {
           })
           .catch(rej => {
             console.log("RNUpdateAPK::downloadApk - apk info error: ", rej);
-            this.options.onError && this.options.onError("Failed to get Downloaded APK Info");
+            this.options.onError &&
+              this.options.onError("Failed to get Downloaded APK Info");
             // re-throw so we don't attempt to install the APK, this will call the downloadApkError handler
             throw rej;
           });
@@ -152,7 +174,9 @@ export class UpdateAPK {
 
   getAppStoreVersionSuccess = data => {
     if (data.resultCount < 1) {
-      console.log("RNUpdateAPK::getAppStoreVersionSuccess - iosAppId is wrong.");
+      console.log(
+        "RNUpdateAPK::getAppStoreVersionSuccess - iosAppId is wrong."
+      );
       return;
     }
     const result = data.results[0];

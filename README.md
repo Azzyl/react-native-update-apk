@@ -67,6 +67,14 @@ instead of a non-JSON XML document
 }
 ```
 
+## Extra
+
+In this version an ability to provide URL from source code and update flag is added
+
+````toUpdate: toUpdate,
+  apkUrl: apkUrl, ```
+
 ## Library Dependency
 
 - react-native-fs
+````

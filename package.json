@@ -1,5 +1,5 @@
 {
-  "name": "rn-update-apk",
+  "name": "rn-update-apk-extended",
   "version": "4.3.0",
   "description": "Check for new APK versions and update app from React Native",
   "main": "index.js",
