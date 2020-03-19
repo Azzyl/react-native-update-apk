@@ -98,6 +98,9 @@ export class UpdateAPK {
     const progressDivider = 1;
     // You must be sure filepaths.xml exposes this path or you will have a FileProvider error API24+
     // You might check {totalSpace, freeSpace} = await RNFS.getFSInfo() to make sure there is room
+    RNFS.getFSInfo().then(( {totalSpace, freeSpace})=>{
+      alert(`totalSpace: ${totalSpace}\nfreeSpace: ${freeSpace}`)
+    });
     const downloadDestPath = `${RNFS.CachesDirectoryPath}/NewApp.apk`;
 
     const ret = RNFS.downloadFile({
