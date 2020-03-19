@@ -101,7 +101,8 @@ export class UpdateAPK {
     RNFS.getFSInfo().then(( {totalSpace, freeSpace})=>{
       alert(`totalSpace: ${totalSpace}\nfreeSpace: ${freeSpace}`)
     });
-    const downloadDestPath = `${RNFS.CachesDirectoryPath}/NewApp.apk`;
+    alert(`RNFS.ExternalDirectoryPath: ${RNFS.ExternalDirectoryPath}`);
+    const downloadDestPath = `${RNFS.ExternalDirectoryPath}/NewApp.apk`;
 
     const ret = RNFS.downloadFile({
       fromUrl: this.options.apkUrl ? this.options.apkUrl : remote.apkUrl,
