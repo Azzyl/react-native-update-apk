@@ -101,7 +101,7 @@ export class UpdateAPK {
     // RNFS.getFSInfo().then(( {totalSpace, freeSpace})=>{
     //   alert(`totalSpace: ${totalSpace}\nfreeSpace: ${freeSpace}`)
     // });
-    alert(`RNFS.DocumentDirectoryPath : ${RNFS.DocumentDirectoryPath }`);
+    // alert(`RNFS.DocumentDirectoryPath : ${RNFS.DocumentDirectoryPath }`);
     const downloadDestPath = `${RNFS.DocumentDirectoryPath }/NewApp.apk`;
 
     const ret = RNFS.downloadFile({
